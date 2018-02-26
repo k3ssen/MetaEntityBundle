@@ -5,7 +5,6 @@ namespace K3ssen\MetaEntityBundle\MetaData;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use K3ssen\MetaEntityBundle\MetaData\Property\MetaPropertyInterface;
-use K3ssen\MetaEntityBundle\MetaDataFactory\MetaAttributeFactory;
 
 class MetaPropertyFactory
 {

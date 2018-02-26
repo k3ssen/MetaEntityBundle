@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace K3ssen\MetaEntityBundle\Reader;
 
+use K3ssen\MetaEntityBundle\MetaData\MetaEntityInterface;
+
 class BundleProvider
 {
     protected $bundlesMetaData;

@@ -17,7 +17,14 @@ class MetaEntityExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        //ProcessConfiguration to throw exceptions if values are invalid, but do not use its return value.
+        $this->processConfiguration($configuration, $configs);
+        //The processConfiguration doesn't merge the way we want it
+        //Here, we merge the configs ourselves using array_replace_recursive
+        $config = [];
+        foreach (array_reverse($configs) as $configPart) {
+            $config = array_replace_recursive($config, $configPart);
+        }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
@@ -27,7 +34,7 @@ class MetaEntityExtension extends Extension
         }
 
         $defaultAttributes = $container->getParameter('default_attributes');
-        $configuredAttributes = $container->getParameter('entity_generator.attributes');
+        $configuredAttributes = $container->getParameter('meta_entity.attributes');
         $attributesMerged = array_merge_recursive($defaultAttributes, $configuredAttributes);
         $attributes = array_replace_recursive($defaultAttributes, $configuredAttributes);
 
@@ -37,11 +44,11 @@ class MetaEntityExtension extends Extension
 
             if (isset($defaultAttributes[$name]['type']) && $defaultAttributes[$name]['type'] !== $attributeInfo['type']) {
                 throw new InvalidConfigurationException(sprintf('
-                    Invalid configuration "entity_generator.attributes.%s"; "type" is set to "%s", but "%s" is required by EntityGeneratorBundle. Remove "type" from this configuration or change this its value to "%s"
+                    Invalid configuration "meta_entity.attributes.%s"; "type" is set to "%s", but "%s" is required by MetaEntityBundle. Remove "type" from this configuration or change this its value to "%s"
                 ', $name, $attributeInfo['type'], $defaultAttributes[$name]['type'], $defaultAttributes[$name]['type']));
             }
         }
 
-        $container->setParameter('entity_generator.attributes', $attributes);
+        $container->setParameter('meta_entity.attributes', $attributes);
     }
 }

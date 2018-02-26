@@ -6,7 +6,6 @@ namespace K3ssen\MetaEntityBundle\MetaData\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Inflector\Inflector;
 use K3ssen\MetaEntityBundle\MetaData\MetaEntityInterface;
-use K3ssen\MetaEntityBundle\MetaData\MetaPropertyFactory;
 
 class OneToOneMetaProperty extends AbstractRelationMetaProperty implements OneToOneMetaPropertyInterface
 {
@@ -16,7 +15,15 @@ class OneToOneMetaProperty extends AbstractRelationMetaProperty implements OneTo
     public function __construct(MetaEntityInterface $metaEntity, ArrayCollection $metaAttributes, string $name)
     {
         parent::__construct($metaEntity, $metaAttributes, $name);
-        $this->getMetaAttribute('inversedBy')->setDefaultValue(lcfirst($metaEntity->getName()));
+        $this->setInversedBy(lcfirst($metaEntity->getName()));
+    }
+
+    public static function getReturnType(self $property = null): string
+    {
+        if ($property) {
+            return $property->getTargetEntity()->getName();
+        }
+        return parent::getReturnType();
     }
 
     public function getAnnotationLines(): array

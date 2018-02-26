@@ -24,8 +24,10 @@ class Configuration implements ConfigurationInterface
                             ->enumNode('type')
                                 ->values(['string', 'int', 'bool', 'object', 'array'])
                             ->end()
-                            ->booleanNode('default')->end()
+                            ->scalarNode('default')->end()
                         ->end()
+                        //Allow extra's for custom usage
+                        ->scalarPrototype()->end()
                     ->end()
                 ->end()
             ->end()

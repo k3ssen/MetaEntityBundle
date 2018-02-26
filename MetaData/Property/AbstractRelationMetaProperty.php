@@ -11,7 +11,6 @@ abstract class AbstractRelationMetaProperty extends AbstractMetaProperty impleme
     public function __construct(MetaEntityInterface $metaEntity, ArrayCollection $metaAttributes, string $name)
     {
         parent::__construct($metaEntity, $metaAttributes, $name);
-        $this->getMetaAttribute('targetEntity')->setDefaultValue($metaEntity->getNamespace().'\\'.ucfirst($name));
     }
 
     public function getTargetEntity(): ?MetaEntityInterface

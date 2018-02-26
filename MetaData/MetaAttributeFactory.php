@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace K3ssen\MetaEntityBundle\MetaDataFactory;
-
-use K3ssen\MetaEntityBundle\MetaData\MetaAttributeInterface;
+namespace K3ssen\MetaEntityBundle\MetaData;
 
 class MetaAttributeFactory
 {
